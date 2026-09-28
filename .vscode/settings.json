@@ -1,0 +1,8 @@
+{
+  "files.readonlyInclude": {
+    "**": true
+  },
+  "files.readonlyExclude": {
+    "**/.git/**": true
+  }
+}
