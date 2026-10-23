@@ -16,7 +16,7 @@ services:
       COMPOSER_CACHE_DIR: /tmp/composer-cache
       APP_URL: http://localhost:${FRAUDEBOT_BACKEND_PORT:-9000}
     volumes:
-      - ${FRAUDEBOT_BACKEND_DIR:-../backend/main}:/var/www/backend
+      - ${FRAUDEBOT_BACKEND_DIR:-../backend}:/var/www/backend
       - ./php/conf.d/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
       - ./php/conf.d/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini:ro
     depends_on:
@@ -32,7 +32,7 @@ services:
     ports:
       - "${FRAUDEBOT_BACKEND_PORT:-9000}:80"
     volumes:
-      - ${FRAUDEBOT_BACKEND_DIR:-../backend/main}:/var/www/backend:ro
+      - ${FRAUDEBOT_BACKEND_DIR:-../backend}:/var/www/backend:ro
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - fraudebot-network
@@ -41,7 +41,8 @@ services:
       - backend
 
   frontend:
-    image: node:20-alpine
+    # Vite 8's rolldown musl binding exits with SIGBUS on Alpine.
+    image: node:20-bookworm-slim
     working_dir: /app
     environment:
       HOME: /tmp
