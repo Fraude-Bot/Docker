@@ -85,7 +85,6 @@ networks:
     driver: bridge
 
   fraudebot-api-network:
-    name: fraudebot_fraudebot-api-network
     driver: bridge
 
 volumes:
